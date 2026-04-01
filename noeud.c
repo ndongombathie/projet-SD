@@ -1,6 +1,7 @@
 #include "noeud.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 Noeud* creer_noeud(int valeur){
     Noeud* n = (Noeud*) malloc(sizeof(Noeud)); //on alloue la memoire pour le noeud
@@ -18,6 +19,10 @@ Boolean est_vide(Arbre a){
 
 Arbre creer_arbre(int racine, Arbre gauche, Arbre droit){
     Arbre r = (Arbre)malloc(sizeof(Noeud));
+    if(r==NULL){
+      printf("Erreur: l'allocation memoire a echoue\n");
+      exit(-1);
+    }
     r->valeur=racine; //on initialise la valeur du noeud a la valeur passee en parametre
     r->gauche=gauche; //on initialise le pointeur vers le noeud gauche a NULL
     r->droite=droit;  //on initialise le pointeur vers le noeud droite a NULL
@@ -81,4 +86,24 @@ Boolean rechercher(Arbre a, int x){
     if(a->valeur==x) //si la valeur du noeud actuel est egale a la valeur recherchee, on retourne VRAIE
       return VRAIE;
     return rechercher(a->gauche,x) || rechercher(a->droite,x); //on recherche dans le sous-arbre gauche et dans le sous-arbre droite
+}
+
+
+Arbre inserer_gauche(Arbre a, int parent, int valeur){
+   Arbre g=creer_noeud(valeur);//on creer un nouveau noeud avec la valeur donnee
+   if(est_vide(a)){
+      a=g; //si l'arbre est vide, on ajoute le nouveau noeud a la racine
+  }
+  //recher le parent dans l'arbre a
+  if(rechercher(a,parent)){
+     a->gauche=g; //si le parent existe, on ajoute le nouveau noeud a la gauche du parent
+  }else{
+    printf("Erreur: le parent n'existe pas\n"); //si le parent n'existe pas, on affiche une erreur
+  }
+
+  // verifier si le fils existe deja
+  if(rechercher(a,valeur)){
+      printf("Erreur: le fils existe deja\n"); //si le fils existe deja, on affiche une erreur
+  }
+  return a; //on retourne le pointeur (la racine) vers le noeud
 }
