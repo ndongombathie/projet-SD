@@ -1,35 +1,30 @@
-typedef struct noeud
+    typedef struct noeud
 {
-    int valeur;
-    struct noeud *gauche;
-    struct noeud *droite;
+    int valeur; //valeur du noeud
+    struct noeud *gauche; //pointeur vers le noeud gauche (sous-arbre ou fils  gauche)
+    struct noeud *droite;  //pointeur vers le noeud droite (sous-arbre ou fils  droite)
 } Noeud;
 
-typedef Noeud *Arbre;
+typedef Noeud *Arbre; // pointeur vers un arbre(ou un noeud)
 
-typedef enum {FAUX,VRAIE} Boolean;
+typedef enum {FAUX,VRAIE} Boolean; // type boolean FAUX=0, VRAIE=1
 
-//expliquer le rôle de chaque champ
-//valeur: valeur du noeud
-//gauche: pointeur vers le noeud gauche
-//droite: pointeur vers le noeud droite
+Noeud* creer_noeud(int valeur); // creer un nouveau noeud avec la valeur donnee
 
-Noeud* creer_noeud(int valeur);
+Boolean est_vide(Arbre a); // verifie si un arbre est vide
 
-Boolean est_vide(Arbre a);
+Arbre creer_arbre(int racine, Arbre gauche, Arbre droit); // creer un arbre avec la racine donnee et les sous-arbres gauche et droit
 
-Arbre creer_arbre(int racine, Arbre gauche, Arbre droit);
+void parcours_prefixe(Arbre a); // parcours prefixe d'un arbre:arbre gauche -> arbre droite -> racine
 
-void parcours_prefixe(Arbre a);
+void parcours_infixe(Arbre a); // parcours infixe d'un arbre:arbre gauche -> racine -> arbre droite
 
-void parcours_infixe(Arbre a);
+void parcours_postfixe(Arbre a); // parcours postfixe d'un arbre:arbre gauche -> arbre droite -> racine
 
-void parcours_postfixe(Arbre a);
+int hauteur(Arbre a); // calcule la hauteur d'un arbre
 
-int hauteur(Arbre a);
+int taille(Arbre a); // calcule la taille d'un arbre
 
-int taille(Arbre a);
+int somme(Arbre a); // calcule la somme des valeurs des noeuds d'un arbre
 
-int somme(Arbre a);
-
-Boolean rechercher(Arbre a, int x);
+Boolean rechercher(Arbre a, int x); // recherche une valeur dans un arbre
