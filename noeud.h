@@ -1,4 +1,4 @@
-    typedef struct noeud
+typedef struct noeud
 {
     int valeur; //valeur du noeud
     struct noeud *gauche; //pointeur vers le noeud gauche (sous-arbre ou fils  gauche)
@@ -28,6 +28,10 @@ int taille(Arbre a); // calcule la taille d'un arbre
 int somme(Arbre a); // calcule la somme des valeurs des noeuds d'un arbre
 
 Boolean rechercher(Arbre a, int x); // recherche une valeur dans un arbre
+
+void si_est_dans_arbre(Arbre a, int x); // verifie si une valeur est dans un arbre
+
+Arbre trouver_noeud(Arbre a, int x); // trouver un noeud dans un arbre
 
 Arbre rechercher_parent(Arbre a, int x); // rechercher le parent d'une valeur dans un arbre
 
