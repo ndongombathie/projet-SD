@@ -115,23 +115,6 @@ Arbre trouver_noeud(Arbre a, int x){
     return trouver_noeud(a->droite, x);
 }
 
-Arbre rechercher_parent(Arbre a, int x){
-    if(est_vide(a))
-        return NULL;
-
-    if((a->gauche != NULL && a->gauche->valeur == x) ||
-       (a->droite != NULL && a->droite->valeur == x))
-        return a;
-
-    Arbre p = rechercher_parent(a->gauche, x);
-    if(p != NULL)
-        return p;
-    return rechercher_parent(a->droite, x);
-} 
-
-
-
-
 Arbre inserer_gauche(Arbre a, int parent, int valeur){
    Arbre r = NULL;
    Arbre g=creer_noeud(valeur); //on creer un nouveau noeud avec la valeur donnee
