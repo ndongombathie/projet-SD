@@ -104,14 +104,11 @@ void si_est_dans_arbre(Arbre a, int x){
 Arbre trouver_noeud(Arbre a, int x){
     if(est_vide(a))
         return NULL;
-
     if(a->valeur == x)
         return a;
-
     Arbre gauche = trouver_noeud(a->gauche, x);
     if(gauche != NULL)
         return gauche;
-
     return trouver_noeud(a->droite, x);
 }
 
@@ -124,7 +121,6 @@ Arbre inserer_gauche(Arbre a, int parent, int valeur){
 
   //rechercher le parent dans l'arbre a
   r = trouver_noeud(a,parent);
-
   // verifier si le fils existe deja
   if(rechercher(r,valeur)){
       printf("Erreur: le fils existe deja\n"); //si le fils existe deja, on affiche une erreur
