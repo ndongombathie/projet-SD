@@ -141,10 +141,8 @@ Arbre inserer_droite(Arbre a, int parent, int valeur){
    if(est_vide(a)){
       a=g; //si l'arbre est vide, on ajoute le nouveau noeud a la racine
   }
-
   //rechercher le parent dans l'arbre a
   r = trouver_noeud(a,parent);
-
   // verifier si le fils existe deja
   if(rechercher(r,valeur)){
       printf("Erreur: le fils existe deja\n"); //si le fils existe deja, on affiche une erreur
