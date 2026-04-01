@@ -29,7 +29,10 @@ int somme(Arbre a); // calcule la somme des valeurs des noeuds d'un arbre
 
 Boolean rechercher(Arbre a, int x); // recherche une valeur dans un arbre
 
+Arbre rechercher_parent(Arbre a, int x); // rechercher le parent d'une valeur dans un arbre
 
 Arbre inserer_gauche(Arbre a, int parent, int valeur); // inserer un nouveau noeud a la gauche d'un arbre
 
 Arbre inserer_droite(Arbre a, int parent, int valeur); // inserer un nouveau noeud a la droite d'un arbre
+
+void afficher_arbre(Arbre a, int niveau); // afficher un arbre 

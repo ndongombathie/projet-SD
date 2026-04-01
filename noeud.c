@@ -88,22 +88,63 @@ Boolean rechercher(Arbre a, int x){
     return rechercher(a->gauche,x) || rechercher(a->droite,x); //on recherche dans le sous-arbre gauche et dans le sous-arbre droite
 }
 
+Arbre rechercher_parent(Arbre a, int x){
+    if(est_vide(a))  //cas de base si le noebre est vide, on retourne NULL
+      return NULL;
+    if(a->valeur==x) //si la valeur du noeud actuel est egale a la valeur recherchee, on retourne NULL
+      return NULL;
+    if(a->gauche!=NULL && rechercher_parent(a->gauche,x)!=NULL) //si le noeud actuel a un fils gauche et que le fils gauche contient la valeur recherchee, on retourne le noeud actuel
+      return a;
+    if(a->droite!=NULL && rechercher_parent(a->droite,x)!=NULL) //si le noeud actuel a un fils droite et que le fils droite contient la valeur recherchee, on retourne le noeud actuel
+      return a;
+    return NULL; //on retourne NULL si le noeud actuel n'a pas de fils gauche et n'a pas de fils droite
+}
+
 
 Arbre inserer_gauche(Arbre a, int parent, int valeur){
-   Arbre g=creer_noeud(valeur);//on creer un nouveau noeud avec la valeur donnee
+   Arbre r = NULL;
+   Arbre g=creer_noeud(valeur); //on creer un nouveau noeud avec la valeur donnee
    if(est_vide(a)){
       a=g; //si l'arbre est vide, on ajoute le nouveau noeud a la racine
   }
+
   //recher le parent dans l'arbre a
-  if(rechercher(a,parent)){
-     a->gauche=g; //si le parent existe, on ajoute le nouveau noeud a la gauche du parent
+  r = rechercher_parent(a,parent);
+  if(r!=NULL){
+     r->gauche=g; //si le parent existe, on ajoute le nouveau noeud a la gauche du parent
   }else{
     printf("Erreur: le parent n'existe pas\n"); //si le parent n'existe pas, on affiche une erreur
   }
 
   // verifier si le fils existe deja
-  if(rechercher(a,valeur)){
+  if(rechercher(r,valeur)){
       printf("Erreur: le fils existe deja\n"); //si le fils existe deja, on affiche une erreur
   }
+
   return a; //on retourne le pointeur (la racine) vers le noeud
 }
+
+Arbre inserer_droite(Arbre a, int parent, int valeur){
+   Arbre r = NULL;
+   Arbre g=creer_noeud(valeur); //on creer un nouveau noeud avec la valeur donnee
+   if(est_vide(a)){
+      a=g; //si l'arbre est vide, on ajoute le nouveau noeud a la racine
+  }
+
+  //rechercher le parent dans l'arbre a
+  r = rechercher_parent(a,parent);
+  if(r!=NULL){
+     r->droite=g; //si le parent existe, on ajoute le nouveau noeud a la droite du parent
+  }else{
+    printf("Erreur: le parent n'existe pas\n"); //si le parent n'existe pas, on affiche une erreur
+  }
+
+  // verifier si le fils existe deja
+  if(rechercher(r,valeur)){
+      printf("Erreur: le fils existe deja\n"); //si le fils existe deja, on affiche une erreur
+  }
+
+  return a; //on retourne le pointeur (la racine) vers le noeud
+} 
+
+
