@@ -174,7 +174,22 @@ void libere_graphe_mat(GrapheMatrice *g){
     for(;i<g->nb_sommets;i++){
         free(g->matrice[i]);
     }
-    free(g->matrice);
-    free(g);
+    free(g->matrice); // on libere la memoire de la matrice
+    free(g); // on libere le graphe de la memoire
 }
 
+
+void bfs(Graphe* g, int source) {
+    // on initialise les tableaux de visité et de distance
+    int* visite = (int*)malloc(g->nb_sommets*sizeof(int));
+    int* distance = (int*)malloc(g->nb_sommets*sizeof(int));
+    // on initialise les tableaux de visité et de distance a 0
+    for(int i=0;i<g->nb_sommets;i++) {
+        visite[i] = 0;
+        distance[i] = 0;
+    }
+    // on met la distance de la source a 0
+    distance[source] = 0;
+    // on met la source a visite
+    visite[source] = 1;
+}

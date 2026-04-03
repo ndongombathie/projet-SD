@@ -43,3 +43,5 @@ void afficher_matrice(GrapheMatrice* g); //permet d'afficher la matrice de adjac
 
 void liberer_graphe_mat(GrapheMatrice* g); //permet de libérer la mémoire du graphe matrice
 
+void bfs(Graphe* g, int source);
+
