@@ -110,7 +110,7 @@ void afficher_graphe(Graphe* g) {
         printf("%d -> ",i);
         AdjNoeud* p = g->listes[i];
         while(p != NULL) {
-            printf("%d(%d)Km ",p->sommet,p->poids);
+            printf("%d(%d) ",p->sommet,p->poids);
             p = p->suivant;
         }
         printf("\n");
