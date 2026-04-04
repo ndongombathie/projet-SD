@@ -269,4 +269,72 @@ void bfs(Graphe* g, int source) {
     }
 }
 
-//void dfs(Graphe* g, int source) en version récursive.
+
+int est_pile_vide(Pile p) {
+    return p == NULL;
+}
+
+void empiler_noeud(Pile* p, AdjNoeud* n) {
+    if(est_pile_vide(*p)) {
+        *p = n;
+    }
+    else {
+        n->suivant = *p;
+        *p = n;
+    }
+}
+
+
+void depiler_noeud(Pile p) {
+
+    if (est_pile_vide(p)) {
+        printf("La pile est vide\n");
+        return;
+    }
+
+    AdjNoeud* pt = p;
+    p=p->suivant;
+    free(pt);
+}
+
+Pile pile_vide() {
+    return NULL;
+}
+
+
+
+void dfs_iteratif(Graphe* g, int source) {
+    // on initialise les tableaux de visité et de distance
+    int* noeud_visite = (int*)calloc((g->nb_sommets),sizeof(int)); // on initialise le tableau de visite a 0
+    if(noeud_visite == NULL) {
+        printf("Erreur d'allocation de memoire pour les tableaux de visité distance\n");
+        exit(-1);
+    }
+    // on initialise la pile
+    Pile p = pile_vide();
+    // on ajoute le sommet source a la pile
+    AdjNoeud* n = creer_adj_noeud(source,0);
+    noeud_visite[source] = 1; // on marque le sommet source comme visité
+    empiler_noeud(&p,n);
+    printf("Ordre de visite des sommets :\n");
+    printf("Sommet %d (poids : %d)\n",source,0);
+    noeud_visite[source] = 1; // on marque le sommet source comme visité
+    while(!est_pile_vide(p)){
+        AdjNoeud* noeud = p; // on recupere le sommet en tête de la pile
+        int u = noeud->sommet; // on recupere le sommet u
+        AdjNoeud* adj = g->listes[u]; // on recupere la liste d'adjacence de u
+        if(adj != NULL) {
+            int v = adj->sommet; // on recupere le sommet v
+            if(!noeud_visite[v]) { // si v n'est pas visité
+                //ordre de visite des sommets 
+                printf("Sommet %d (poids : %d)\n",v,adj->poids); 
+                noeud_visite[v] = 1; // on marque v comme visité
+                empiler_noeud(&p,creer_adj_noeud(adj->sommet, adj->poids)); // on ajoute v a la pile
+            }
+            adj = adj->suivant; // on passe au suivant dans la liste d'adjacence de u
+        }
+        else {
+             depiler_noeud(p); // on retire le sommet en tête de la pile
+        }
+    }
+}

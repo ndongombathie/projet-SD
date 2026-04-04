@@ -16,6 +16,7 @@ int main()
     afficher_graphe(g);
     printf("\n");
     bfs(g,0);
+    dfs_iteratif(g,0);
     liberer_graphe(g);
     return 0;
 }
