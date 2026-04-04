@@ -26,8 +26,8 @@ typedef struct file{
 } File;
 
 
-void enfiler(File* f, AdjNoeud* n); //permet d'ajouter un élément à la file
-void defiler(File* f); //permet de retirer un élément de la file
+void enfiler_noeud(File* f, AdjNoeud* n); //permet d'ajouter un élément à la file
+void defiler_noeud(File* f); //permet de retirer un élément de la file
 File * file_vide(); //permet d'initialiser une file vide
 int est_file_vide(File* f); //permet de vérifier si la file est vide
 

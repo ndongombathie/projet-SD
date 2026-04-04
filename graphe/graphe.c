@@ -209,7 +209,7 @@ File * file_vide() {
     return f;
 }
 
-void enfiler(File* f, AdjNoeud* n) {
+void enfiler_noeud(File* f, AdjNoeud* n) {
     if(est_file_vide(f)) {
         f->tete = n;
         f->queue = n;
@@ -220,7 +220,7 @@ void enfiler(File* f, AdjNoeud* n) {
     }
 }
 
-void defiler(File* f) {
+void defiler_noeud(File* f) {
     if (est_file_vide(f)) {
         printf("La file est vide\n");
         return;
@@ -237,42 +237,36 @@ void defiler(File* f) {
 
 void bfs(Graphe* g, int source) {
     // on initialise les tableaux de visité et de distance
-    int* visite = (int*)calloc((g->nb_sommets),sizeof(int)); // on initialise le tableau de visite a 0
-    int* distance = (int*)calloc(g->nb_sommets,sizeof(int)); // on initialise le tableau de distance a 0
-    if(visite == NULL || distance == NULL) {
-        printf("Erreur d'allocation de memoire pour les tableaux de visité et de distance\n");
+    int* noeud_visite = (int*)calloc((g->nb_sommets),sizeof(int)); // on initialise le tableau de visite a 0
+    if(noeud_visite == NULL) {
+        printf("Erreur d'allocation de memoire pour les tableaux de visité distance\n");
         exit(-1);
     }
     // on initialise la file
     File* f = file_vide();
     // on ajoute le sommet source a la file
     AdjNoeud* n = creer_adj_noeud(source,0);
-    enfiler(f,n);
+    enfiler_noeud(f,n);
 
     printf("Ordre de visite des sommets :\n");
     printf("Sommet %d (poids : %d)\n",source,0);
-    visite[source] = 1; // on marque le sommet source comme visité
-    distance[source] = 0; // la distance du sommet source a lui même est 0
+    noeud_visite[source] = 1; // on marque le sommet source comme visité
     while(!est_file_vide(f)){
         AdjNoeud* p = f->tete; // on recupere le sommet en tête de la file
         int u = p->sommet; // on recupere le sommet u
         AdjNoeud* adj = g->listes[u]; // on recupere la liste d'adjacence de u
         while(adj != NULL) {
             int v = adj->sommet; // on recupere le sommet v
-            if(!visite[v]) { // si v n'est pas visité
+            if(!noeud_visite[v]) { // si v n'est pas visité
                 //ordre de visite des sommets 
                 printf("Sommet %d (poids : %d)\n",v,adj->poids); 
-                visite[v] = 1; // on marque v comme visité
-                distance[v] = distance[u] + 1; // on met a jour la distance de v
-                enfiler(f,creer_adj_noeud(adj->sommet, adj->poids)); // on ajoute v a la file
+                noeud_visite[v] = 1; // on marque v comme visité
+                enfiler_noeud(f,creer_adj_noeud(adj->sommet, adj->poids)); // on ajoute v a la file
             }
             adj = adj->suivant; // on passe au suivant dans la liste d'adjacence de u
         }
-       defiler(f); // on retire le sommet en tête de la file
+       defiler_noeud(f); // on retire le sommet en tête de la file
     }
-    // on affiche les distances
-    printf("Distances depuis le sommet %d :\n",source);
-    //les sommets visités sont à une distance de 0,1,2,... du sommet source
 }
 
 //void dfs(Graphe* g, int source) en version récursive.
