@@ -19,6 +19,19 @@ typedef struct {
     int** matrice;
 } GrapheMatrice;
 
+
+typedef struct file{
+    AdjNoeud* tete;
+    AdjNoeud* queue;
+} File;
+
+
+void enfiler(File* f, AdjNoeud* n); //permet d'ajouter un élément à la file
+void defiler(File* f); //permet de retirer un élément de la file
+File * file_vide(); //permet d'initialiser une file vide
+int est_file_vide(File* f); //permet de vérifier si la file est vide
+
+
 Graphe* creer_graphe(int nb_sommets, int oriente); //permet de créer un graphe
 
 void ajouter_arete(Graphe* g, int u, int v, int poids); //permet d'ajouter une arete u->v (poids = 0)

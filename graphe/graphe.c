@@ -6,6 +6,10 @@
 Graphe * creer_graphe(int nb_sommets, int oriente) {
     int i=0;
     Graphe *g = (Graphe*)malloc(sizeof(Graphe)); //on alloue la memoire pour le graphe
+    if(g == NULL) {
+        printf("Erreur d'allocation de memoire pour le graphe\n");
+        exit(-1);
+    }
     g->nb_sommets = nb_sommets;
     g->nb_aretes = 0;
     g->oriente = oriente; /* 1 = orienté, 0 = non orienté */
@@ -19,6 +23,10 @@ Graphe * creer_graphe(int nb_sommets, int oriente) {
 
 AdjNoeud* creer_adj_noeud(int sommet, int poids) {
     AdjNoeud* n = (AdjNoeud*)malloc(sizeof(AdjNoeud));
+    if(n == NULL) {
+        printf("Erreur d'allocation de memoire pour le nœud d'adjacence\n");
+        exit(-1);
+    }
     n->sommet = sommet;
     n->poids = poids;
     n->suivant = NULL;
@@ -107,13 +115,16 @@ int arete_existe(Graphe* g, int u, int v) {
 void afficher_graphe(Graphe* g) {
     int i=0;
     for(;i<g->nb_sommets;i++) {
-        printf("%d -> ",i);
-        AdjNoeud* p = g->listes[i];
-        while(p != NULL) {
-            printf("%d(%d) ",p->sommet,p->poids);
-            p = p->suivant;
+        if(g->listes[i] != NULL) {
+            printf("%d -> ",i);
+            AdjNoeud* p = g->listes[i];
+            while(p != NULL) {
+                printf("%d(%d) ",p->sommet,p->poids);
+                p = p->suivant;
+            }
+            printf("\n");
         }
-        printf("\n");
+        
     }
 }
 
@@ -135,6 +146,10 @@ void liberer_graphe(Graphe* g) {
 GrapheMatrice* creer_graphe_matrice(int nb_sommets, int oriente) {
     int i=0;
     GrapheMatrice* g = (GrapheMatrice*)malloc(sizeof(GrapheMatrice));
+    if(g == NULL) {
+        printf("Erreur d'allocation de memoire pour le graphe matrice\n");
+        exit(-1);
+    }
     g->nb_sommets = nb_sommets;
     g->oriente = oriente;
     g->matrice = (int**)malloc(nb_sommets*sizeof(int*));
@@ -179,17 +194,85 @@ void libere_graphe_mat(GrapheMatrice *g){
 }
 
 
+int est_file_vide(File* f) {
+    return f->tete == NULL && f->queue == NULL;
+}
+
+File * file_vide() {
+    File* f = (File*)malloc(sizeof(File));
+    if(f == NULL) {
+        printf("Erreur d'allocation de memoire pour la file\n");
+        exit(-1);
+    }
+    f->tete = NULL;
+    f->queue = NULL;
+    return f;
+}
+
+void enfiler(File* f, AdjNoeud* n) {
+    if(est_file_vide(f)) {
+        f->tete = n;
+        f->queue = n;
+    }
+    else {
+        f->queue->suivant = n;
+        f->queue = n;
+    }
+}
+
+void defiler(File* f) {
+    if (est_file_vide(f)) {
+        printf("La file est vide\n");
+        return;
+    }
+    AdjNoeud* p = f->tete;
+    f->tete = f->tete->suivant;
+
+    if (f->tete==NULL) {
+        f->queue = NULL;
+    }
+    free(p);
+}
+
+
 void bfs(Graphe* g, int source) {
     // on initialise les tableaux de visité et de distance
-    int* visite = (int*)malloc(g->nb_sommets*sizeof(int));
-    int* distance = (int*)malloc(g->nb_sommets*sizeof(int));
-    // on initialise les tableaux de visité et de distance a 0
-    for(int i=0;i<g->nb_sommets;i++) {
-        visite[i] = 0;
-        distance[i] = 0;
+    int* visite = (int*)calloc((g->nb_sommets),sizeof(int)); // on initialise le tableau de visite a 0
+    int* distance = (int*)calloc(g->nb_sommets,sizeof(int)); // on initialise le tableau de distance a 0
+    if(visite == NULL || distance == NULL) {
+        printf("Erreur d'allocation de memoire pour les tableaux de visité et de distance\n");
+        exit(-1);
     }
-    // on met la distance de la source a 0
-    distance[source] = 0;
-    // on met la source a visite
-    visite[source] = 1;
+    // on initialise la file
+    File* f = file_vide();
+    // on ajoute le sommet source a la file
+    AdjNoeud* n = creer_adj_noeud(source,0);
+    enfiler(f,n);
+
+    printf("Ordre de visite des sommets :\n");
+    printf("Sommet %d (poids : %d)\n",source,0);
+    visite[source] = 1; // on marque le sommet source comme visité
+    distance[source] = 0; // la distance du sommet source a lui même est 0
+    while(!est_file_vide(f)){
+        AdjNoeud* p = f->tete; // on recupere le sommet en tête de la file
+        int u = p->sommet; // on recupere le sommet u
+        AdjNoeud* adj = g->listes[u]; // on recupere la liste d'adjacence de u
+        while(adj != NULL) {
+            int v = adj->sommet; // on recupere le sommet v
+            if(!visite[v]) { // si v n'est pas visité
+                //ordre de visite des sommets 
+                printf("Sommet %d (poids : %d)\n",v,adj->poids); 
+                visite[v] = 1; // on marque v comme visité
+                distance[v] = distance[u] + 1; // on met a jour la distance de v
+                enfiler(f,creer_adj_noeud(adj->sommet, adj->poids)); // on ajoute v a la file
+            }
+            adj = adj->suivant; // on passe au suivant dans la liste d'adjacence de u
+        }
+       defiler(f); // on retire le sommet en tête de la file
+    }
+    // on affiche les distances
+    printf("Distances depuis le sommet %d :\n",source);
+    //les sommets visités sont à une distance de 0,1,2,... du sommet source
 }
+
+//void dfs(Graphe* g, int source) en version récursive.
