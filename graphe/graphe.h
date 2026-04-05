@@ -78,5 +78,5 @@ void afficher_matrice(GrapheMatrice* g); //permet d'afficher la matrice de adjac
 
 void liberer_graphe_mat(GrapheMatrice* g); //permet de libérer la mémoire du graphe matrice
 
-void bfs(Graphe* g, int source);
+void bfs(Graphe* g, int source); //permet de faire un parcours en largeur du graphe à partir d'un sommet source
 
