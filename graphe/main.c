@@ -13,11 +13,13 @@ int main()
     ajouter_arete(g,3,5,300);  //on ajoute une arete entre Kaolack et Saint-Louis avec un poids de 300
     ajouter_arete(g,4,5,200); //on ajoute une arete entre Touba et Saint-Louis avec un poids de 200
     printf("Graphe :\n");
-    afficher_graphe(g);
+    afficher_graphe(g);   //on affiche le graphe
     printf("\n");
-    bfs(g,0);
+    bfs(g,0);  //on fait un parcours en largeur du graphe à partir du sommet 0 (Dakar)
     printf("\n");
-    dfs_iteratif(g,0);
-    liberer_graphe(g);
+    dfs_iteratif(g,0); //on fait un parcours en profondeur itératif du graphe à partir du sommet 0 (Dakar)
+    printf("\n");
+    dfs(g,0); //on fait un parcours en profondeur récursive du graphe à partir du sommet 0 (Dakar)
+    liberer_graphe(g); // mémoire allou mémoire allouée pour le graphe
     return 0;
 }

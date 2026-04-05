@@ -267,7 +267,20 @@ void bfs(Graphe* g, int source) {
         }
        defiler_noeud(f); // on retire le sommet en tête de la file
     }
+    free(noeud_visite); // on libere la memoire du tableau de visite
+    free(f); // on libere la memoire de la file
     printf("\n");
+}
+
+//void dfs(Graphe* g, int source) en version récursive
+void dfs(Graphe* g, int source) {
+    if(g->listes[source] == NULL) {
+       printf("Sommet %d (poids : %d)\n",source,g->listes[source-1]->poids);
+        return;
+    }
+
+    printf("Sommet %d (poids : %d)\n",source,g->listes[source]->poids);
+    dfs(g, g->listes[source]->sommet);
 }
 
 
@@ -341,5 +354,6 @@ void dfs_iteratif(Graphe* g, int source) {
         }
         depiler_noeud(&p); // on retire le sommet en tête de la pile
     }
+    free(noeud_visite); // on libere la memoire du tableau de visite    
     printf("\n");
 }

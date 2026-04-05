@@ -28,14 +28,25 @@ typedef struct file{
 typedef AdjNoeud* Pile;
 
 void enfiler_noeud(File* f, AdjNoeud* n); //permet d'ajouter un élément à la file
+
 void defiler_noeud(File* f); //permet de retirer un élément de la file
+
 File * file_vide(); //permet d'initialiser une file vide
+
 int est_file_vide(File* f); //permet de vérifier si la file est vide
 
+void bfs(Graphe* g, int source); //permet de faire un parcours en largeur du graphe à partir d'un sommet source
+
 void dfs_iteratif(Graphe* g, int source); //permet de faire un parcours en profondeur itératif du graphe à partir d'un sommet source
+
+void dfs(Graphe* g, int source); //permet de faire un parcours en profondeur récursive du graphe à partir d'un sommet source
+
 void empiler_noeud(Pile* p, AdjNoeud* n); //permet d'ajouter un élément à la pile
+
 void depiler_noeud(Pile *p); //permet de retirer un élément de la pile
+
 Pile pile_vide(); //permet d'initialiser une pile vide
+
 int est_pile_vide(Pile p); //permet de vérifier si la pile est vide
 
 
