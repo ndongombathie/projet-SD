@@ -1,4 +1,4 @@
-typedef struct adj_noeud {  //Structure des nœuds
+    typedef struct adj_noeud {  //Structure des nœuds
     int sommet;
     int poids; /* 0 si graphe non pondéré */
     struct adj_noeud* suivant;
@@ -34,7 +34,7 @@ int est_file_vide(File* f); //permet de vérifier si la file est vide
 
 void dfs_iteratif(Graphe* g, int source); //permet de faire un parcours en profondeur itératif du graphe à partir d'un sommet source
 void empiler_noeud(Pile* p, AdjNoeud* n); //permet d'ajouter un élément à la pile
-void depiler_noeud(Pile p); //permet de retirer un élément de la pile
+void depiler_noeud(Pile *p); //permet de retirer un élément de la pile
 Pile pile_vide(); //permet d'initialiser une pile vide
 int est_pile_vide(Pile p); //permet de vérifier si la pile est vide
 

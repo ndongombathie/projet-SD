@@ -248,7 +248,7 @@ void bfs(Graphe* g, int source) {
     AdjNoeud* n = creer_adj_noeud(source,0);
     enfiler_noeud(f,n);
 
-    printf("Ordre de visite des sommets :\n");
+    printf("Ordre de visite des sommets du parcours bfs :\n");
     printf("Sommet %d (poids : %d)\n",source,0);
     noeud_visite[source] = 1; // on marque le sommet source comme visité
     while(!est_file_vide(f)){
@@ -267,6 +267,7 @@ void bfs(Graphe* g, int source) {
         }
        defiler_noeud(f); // on retire le sommet en tête de la file
     }
+    printf("\n");
 }
 
 
@@ -282,18 +283,20 @@ void empiler_noeud(Pile* p, AdjNoeud* n) {
         n->suivant = *p;
         *p = n;
     }
+   // printf("Empile : %d (poids : %d)\n",n->sommet,n->poids);
 }
 
 
-void depiler_noeud(Pile p) {
+void depiler_noeud(Pile *p) {
 
-    if (est_pile_vide(p)) {
+    if (est_pile_vide(*p)) {
         printf("La pile est vide\n");
         return;
     }
 
-    AdjNoeud* pt = p;
-    p=p->suivant;
+    AdjNoeud* pt = *p;
+      *p = pt->suivant;
+   // printf("Depile : %d (poids : %d)\n",pt->sommet,pt->poids);
     free(pt);
 }
 
@@ -316,25 +319,27 @@ void dfs_iteratif(Graphe* g, int source) {
     AdjNoeud* n = creer_adj_noeud(source,0);
     noeud_visite[source] = 1; // on marque le sommet source comme visité
     empiler_noeud(&p,n);
-    printf("Ordre de visite des sommets :\n");
+    printf("Ordre de visite des sommets du parcours dfs :\n");
     printf("Sommet %d (poids : %d)\n",source,0);
     noeud_visite[source] = 1; // on marque le sommet source comme visité
     while(!est_pile_vide(p)){
         AdjNoeud* noeud = p; // on recupere le sommet en tête de la pile
         int u = noeud->sommet; // on recupere le sommet u
         AdjNoeud* adj = g->listes[u]; // on recupere la liste d'adjacence de u
-        if(adj != NULL) {
+        while(adj != NULL) {
             int v = adj->sommet; // on recupere le sommet v
             if(!noeud_visite[v]) { // si v n'est pas visité
                 //ordre de visite des sommets 
                 printf("Sommet %d (poids : %d)\n",v,adj->poids); 
                 noeud_visite[v] = 1; // on marque v comme visité
                 empiler_noeud(&p,creer_adj_noeud(adj->sommet, adj->poids)); // on ajoute v a la pile
+                adj = g->listes[v]; // on passe a la liste d'adjacence de v pour continuer le parcours en profondeur
+            }else{
+                adj = adj->suivant; // on passe au suivant dans la liste d'adjacence de u
+                depiler_noeud(&p); // on retire le sommet en tête de la pile
             }
-            adj = adj->suivant; // on passe au suivant dans la liste d'adjacence de u
         }
-        else {
-             depiler_noeud(p); // on retire le sommet en tête de la pile
-        }
+        depiler_noeud(&p); // on retire le sommet en tête de la pile
     }
+    printf("\n");
 }
