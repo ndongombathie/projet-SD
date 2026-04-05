@@ -311,7 +311,6 @@ void empiler_noeud(Pile* p, AdjNoeud* n) {
         n->suivant = *p;
         *p = n;
     }
-   // printf("Empile : %d (poids : %d)\n",n->sommet,n->poids);
 }
 
 
@@ -322,9 +321,8 @@ void depiler_noeud(Pile *p) {
         return;
     }
 
-    AdjNoeud* pt = *p;
+    AdjNoeud* pt = *p; // on recupere le sommet en tête de la pile
       *p = pt->suivant;
-   // printf("Depile : %d (poids : %d)\n",pt->sommet,pt->poids);
     free(pt);
 }
 
