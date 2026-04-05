@@ -25,3 +25,4 @@ int main()
     liberer_graphe(g); // mémoire allou mémoire allouée pour le graphe
     return 0;
 }
+

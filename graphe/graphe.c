@@ -278,23 +278,23 @@ void dfs_recursive(Graphe* g, int u, int* visite) {
     printf("Sommet %d\n", u);
     visite[u] = 1;
     for(AdjNoeud* adj = g->listes[u]; adj != NULL; adj = adj->suivant) {
-        int v = adj->sommet;
-        if(!visite[v]) {
-            dfs_recursive(g, v, visite);
+        int v = adj->sommet; // on recupere le sommet v
+        if(!visite[v]) { // si v n'est pas visité
+            dfs_recursive(g, v, visite); // on continue le parcours en profondeur a partir du sommet v
         }
     }
 }
 
 void dfs(Graphe* g, int source) {
-    int* noeud_visite = (int*)calloc(g->nb_sommets, sizeof(int));
+    int* noeud_visite = (int*)calloc(g->nb_sommets, sizeof(int)); // on initialise le tableau de visite a 0
     if(noeud_visite == NULL) {
         printf("Erreur d'allocation de memoire pour les tableaux de visité distance\n");
         exit(-1);
     }
 
     printf("Ordre de visite des sommets du parcours dfs en mode récursive :\n");
-    dfs_recursive(g, source, noeud_visite);
-    free(noeud_visite);
+    dfs_recursive(g, source, noeud_visite); // on commence le parcours en profondeur a partir du sommet source
+    free(noeud_visite);// on libere la memoire du tableau de visite
     printf("\n");
 }
 
@@ -364,6 +364,7 @@ void dfs_iteratif(Graphe* g, int source) {
                 adj = g->listes[v]; // on passe a la liste d'adjacence de v pour continuer le parcours en profondeur
             }else{
                 adj = adj->suivant; // on passe au suivant dans la liste d'adjacence de u
+                printf("Retour en arrière vers le sommet %d\n",v); // on affiche le retour en arrière
                 depiler_noeud(&p); // on retire le sommet en tête de la pile
             }
         }

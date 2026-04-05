@@ -25,3 +25,4 @@ int main()
     afficher_arbre(a,0); //on affiche l'arbre
     return 0;
 }
+
