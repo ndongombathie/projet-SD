@@ -20,6 +20,8 @@ int main()
     dfs_iteratif(g,0); //on fait un parcours en profondeur itératif du graphe à partir du sommet 0 (Dakar)
     printf("\n");
     dfs(g,0); //on fait un parcours en profondeur récursive du graphe à partir du sommet 0 (Dakar)
+    printf("\n");
+    dfs_complet(g); //on fait un parcours en profondeur complet du graphe non convexe
     liberer_graphe(g); // mémoire allou mémoire allouée pour le graphe
     return 0;
 }

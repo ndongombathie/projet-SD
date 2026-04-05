@@ -39,7 +39,11 @@ void bfs(Graphe* g, int source); //permet de faire un parcours en largeur du gra
 
 void dfs_iteratif(Graphe* g, int source); //permet de faire un parcours en profondeur itératif du graphe à partir d'un sommet source
 
+void dfs_recursive(Graphe* g, int u, int* noeud_visite); //permet de faire un parcours en profondeur récursive du graphe à partir d'un sommet u
+
 void dfs(Graphe* g, int source); //permet de faire un parcours en profondeur récursive du graphe à partir d'un sommet source
+
+void dfs_complet(Graphe* g); //permet de faire un parcours en profondeur complet du graphe non convexe
 
 void empiler_noeud(Pile* p, AdjNoeud* n); //permet d'ajouter un élément à la pile
 

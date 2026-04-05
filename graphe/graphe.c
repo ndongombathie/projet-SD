@@ -272,15 +272,30 @@ void bfs(Graphe* g, int source) {
     printf("\n");
 }
 
+
 //void dfs(Graphe* g, int source) en version récursive
+void dfs_recursive(Graphe* g, int u, int* visite) {
+    printf("Sommet %d\n", u);
+    visite[u] = 1;
+    for(AdjNoeud* adj = g->listes[u]; adj != NULL; adj = adj->suivant) {
+        int v = adj->sommet;
+        if(!visite[v]) {
+            dfs_recursive(g, v, visite);
+        }
+    }
+}
+
 void dfs(Graphe* g, int source) {
-    if(g->listes[source] == NULL) {
-       printf("Sommet %d (poids : %d)\n",source,g->listes[source-1]->poids);
-        return;
+    int* noeud_visite = (int*)calloc(g->nb_sommets, sizeof(int));
+    if(noeud_visite == NULL) {
+        printf("Erreur d'allocation de memoire pour les tableaux de visité distance\n");
+        exit(-1);
     }
 
-    printf("Sommet %d (poids : %d)\n",source,g->listes[source]->poids);
-    dfs(g, g->listes[source]->sommet);
+    printf("Ordre de visite des sommets du parcours dfs en mode récursive :\n");
+    dfs_recursive(g, source, noeud_visite);
+    free(noeud_visite);
+    printf("\n");
 }
 
 
@@ -332,7 +347,7 @@ void dfs_iteratif(Graphe* g, int source) {
     AdjNoeud* n = creer_adj_noeud(source,0);
     noeud_visite[source] = 1; // on marque le sommet source comme visité
     empiler_noeud(&p,n);
-    printf("Ordre de visite des sommets du parcours dfs :\n");
+    printf("Ordre de visite des sommets du parcours dfs en mode itératif :\n");
     printf("Sommet %d (poids : %d)\n",source,0);
     noeud_visite[source] = 1; // on marque le sommet source comme visité
     while(!est_pile_vide(p)){
@@ -355,5 +370,23 @@ void dfs_iteratif(Graphe* g, int source) {
         depiler_noeud(&p); // on retire le sommet en tête de la pile
     }
     free(noeud_visite); // on libere la memoire du tableau de visite    
+    printf("\n");
+} 
+
+// Parcours en profondeur complet du graphe non convexe
+void dfs_complet(Graphe* g) {
+    int* noeud_visite = (int*)calloc(g->nb_sommets, sizeof(int));
+    if(noeud_visite == NULL) {
+        printf("Erreur d'allocation de memoire pour les tableaux de visité distance\n");
+        exit(-1);
+    }
+
+    printf("Ordre de visite des sommets du parcours dfs en mode récursive complet :\n");
+    for(int i = 0; i < g->nb_sommets; i++) {
+        if(!noeud_visite[i]) {
+            dfs_recursive(g, i, noeud_visite);
+        }
+    }
+    free(noeud_visite);
     printf("\n");
 }
